@@ -90,7 +90,7 @@
     }
 
     ?>
-        <a href='logout.php'>Login</a>
+        <p><a href='logout.php'>Log Out</a></p>
     </div>
     <div
         class="fb-like"
