@@ -51,9 +51,9 @@
         try {
             $session = $helper->getSessionFromRedirect();
         } catch(FacebookRequestException $ex) {
-            echo "facebook error : ".$ex;
+            echo "facebook error : ".$ex->getMessage();
         } catch(\Exception $ex) {
-            echo "validation fail : ".$ex;
+            echo "validation fail : ".$ex->getMessage();
         }
         if ($session) {
             echo "logged";
