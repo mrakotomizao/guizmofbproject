@@ -57,6 +57,8 @@
         }
         if ($session) {
             echo "logged";
+        }else{
+            echo "can't login";
         }
     }
 
