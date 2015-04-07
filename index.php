@@ -48,6 +48,7 @@
     var_dump($_SESSION);
     if(isset($_SESSION) && isset($_SESSION['fb_token'])){
         $session = new FacebookSession($_SESSION['fb_token']);
+        echo "here";
     }else{
         try {
             $session = $helper->getSessionFromRedirect();
