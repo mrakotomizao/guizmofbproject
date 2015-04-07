@@ -45,6 +45,7 @@
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
+    var_dump($_SESSION);
     if(isset($_SESSION) && isset($_SESSION['fb_token'])){
         $session = new FacebookSession($_SESSION['fb_token']);
     }else{
