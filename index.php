@@ -1,79 +1,106 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
 
-    require "facebook-php-sdk-v4-4.0-dev/autoload.php";
-    require "vendor/autoload.php";
+// include required files form Facebook SDK
 
-    const APPID =   "1631679237055563";
-    const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
+require_once( 'Facebook/HttpClients/FacebookHttpable.php' );
+require_once( 'Facebook/HttpClients/FacebookCurl.php' );
+require_once( 'Facebook/HttpClients/FacebookCurlHttpClient.php' );
 
-    use Facebook\FacebookSession;
-    use Facebook\FacebookRedirectLoginHelper;
-    use Facebook\FacebookRequestException;
-    session_start();
-    FacebookSession::setDefaultApplication(APPID,APPSECRET);
-?>
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-        <script>
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : '1631679237055563',
-                    xfbml      : true,
-                    version    : 'v2.3'
-                });
-            };
+require_once( 'Facebook/Entities/AccessToken.php' );
+require_once( 'Facebook/Entities/SignedRequest.php' );
 
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-    </head>
-    <body>
-    <header><p>TEST FBPROJECT</p></header>
-    <div>
-    <?php
-        $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
-        $loginUrl = $helper->getLoginUrl(['email','user_birthday']);
+require_once( 'Facebook/FacebookSession.php' );
+require_once( 'Facebook/FacebookRedirectLoginHelper.php' );
+require_once( 'Facebook/FacebookRequest.php' );
+require_once( 'Facebook/FacebookResponse.php' );
+require_once( 'Facebook/FacebookSDKException.php' );
+require_once( 'Facebook/FacebookRequestException.php' );
+require_once( 'Facebook/FacebookOtherException.php' );
+require_once( 'Facebook/FacebookAuthorizationException.php' );
+require_once( 'Facebook/GraphObject.php' );
+require_once( 'Facebook/GraphSessionInfo.php' );
 
-    ?>
-        <a href='<?php echo $loginUrl?>'>se connecter</a>
-    <?php
-    var_dump($_SESSION);
-    if(isset($_SESSION) && isset($_SESSION['fb_token'])){
-        $session = new FacebookSession($_SESSION['fb_token']);
-        echo "here";
-    }else{
-        try {
-            $session = $helper->getSessionFromRedirect();
-        } catch(FacebookRequestException $ex) {
-            echo "facebook error : ".$ex->getMessage();
-        } catch(\Exception $ex) {
-            echo "validation fail : ".$ex->getMessage();
+use Facebook\HttpClients\FacebookHttpable;
+use Facebook\HttpClients\FacebookCurl;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+
+use Facebook\Entities\AccessToken;
+use Facebook\Entities\SignedRequest;
+
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
+use Facebook\FacebookResponse;
+use Facebook\FacebookSDKException;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookOtherException;
+use Facebook\FacebookAuthorizationException;
+use Facebook\GraphObject;
+use Facebook\GraphSessionInfo;
+
+// start session
+session_start();
+
+// init app with app id and secret
+FacebookSession::setDefaultApplication( 'xxx','yyy' );
+
+// login helper with redirect_uri
+$helper = new FacebookRedirectLoginHelper( 'http://yourwebsite.com/app/' );
+
+// see if a existing session exists
+if ( isset( $_SESSION ) && isset( $_SESSION['fb_token'] ) ) {
+    // create new session from saved access_token
+    $session = new FacebookSession( $_SESSION['fb_token'] );
+
+    // validate the access_token to make sure it's still valid
+    try {
+        if ( !$session->validate() ) {
+            $session = null;
         }
-        if ($session) {
-            echo "logged";
-        }else{
-            echo "can't login";
-        }
+    } catch ( Exception $e ) {
+        // catch any exceptions
+        $session = null;
+    }
+}
+
+if ( !isset( $session ) || $session === null ) {
+    // no session exists
+
+    try {
+        $session = $helper->getSessionFromRedirect();
+    } catch( FacebookRequestException $ex ) {
+        // When Facebook returns an error
+        // handle this better in production code
+        print_r( $ex );
+    } catch( Exception $ex ) {
+        // When validation fails or other local issues
+        // handle this better in production code
+        print_r( $ex );
     }
 
-    ?>
-    </div>
-    <div
-        class="fb-like"
-        data-share="true"
-        data-width="450"
-        data-show-faces="true">
-    </div>
+}
 
-    </body>
-</html>
+// see if we have a session
+if ( isset( $session ) ) {
+
+    // save the session
+    $_SESSION['fb_token'] = $session->getToken();
+    // create a session using saved token or the new one we generated at login
+    $session = new FacebookSession( $session->getToken() );
+
+    // graph api request for user data
+    $request = new FacebookRequest( $session, 'GET', '/me' );
+    $response = $request->execute();
+    // get response
+    $graphObject = $response->getGraphObject()->asArray();
+
+    // print profile data
+    echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
+
+    // print logout url using session and redirect_uri (logout.php page should destroy the session)
+    echo '<a href="' . $helper->getLogoutUrl( $session, 'http://yourwebsite.com/app/logout.php' ) . '">Logout</a>';
+
+} else {
+    // show login url
+    echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_friends' ) ) . '">Login</a>';
+}
