@@ -1,8 +1,6 @@
 <?php
-    session_start();
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
-
 
     require "facebook-php-sdk-v4-4.0-dev/autoload.php";
     require "vendor/autoload.php";
@@ -12,6 +10,9 @@
 
     use Facebook\FacebookSession;
     use Facebook\FacebookRedirectLoginHelper;
+
+    session_start();
+
     FacebookSession::setDefaultApplication(APPID,APPSECRET);
 ?>
 <!doctype html>
