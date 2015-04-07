@@ -1,6 +1,7 @@
 <?php
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
+
     session_start();
     require "facebook-php-sdk-v4-4.0-dev/autoload.php";
     require "vendor/autoload.php";
@@ -38,18 +39,28 @@
     <body>
     <header><p>TEST FBPROJECT</p></header>
     <div>
-        <?php
-            $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
-            $loginUrl = $helper->getLoginUrl();
-        ?>
-            <a href='<?php echo $loginUrl?>'>se connecter</a>
-        <?php
-        if(isset($_SESSION) && isset($_SESSION['fb_token'])){
-            $session = new FacebookSession($_SESSION['fb_token']);
-        }else{
+    <?php
+        $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
+        $loginUrl = $helper->getLoginUrl();
+    ?>
+        <a href='<?php echo $loginUrl?>'>se connecter</a>
+    <?php
+    if(isset($_SESSION) && isset($_SESSION['fb_token'])){
+        $session = new FacebookSession($_SESSION['fb_token']);
+    }else{
+        try {
             $session = $helper->getSessionFromRedirect();
+        } catch(FacebookRequestException $ex) {
+            echo "facebook error : ".$ex;
+        } catch(\Exception $ex) {
+            echo "validation fail : ".$ex;
         }
-        ?>
+        if ($session) {
+            echo "logged";
+        }
+    }
+
+    ?>
     </div>
     <div
         class="fb-like"
