@@ -3,6 +3,7 @@
     ini_set("display_errors", 1);
     session_start();
     require "facebook-php-sdk-v4-4.0-dev/autoload.php";
+    require "vendor/autoload.php";
 
     const APPID =   "1631679237055563";
     const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
@@ -29,7 +30,7 @@
                 var js, fjs = d.getElementsByTagName(s)[0];
                 if (d.getElementById(id)) {return;}
                 js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/fr_FR/sdk.js";
+                js.src = "//connect.facebook.net/en_US/sdk.js";
                 fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
         </script>
