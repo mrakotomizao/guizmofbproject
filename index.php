@@ -47,7 +47,7 @@
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
-    var_dump($_SESSION);
+    var_dump( $helper->getSessionFromRedirect());
     if(isset($_SESSION) && isset($_SESSION['fb_token'])){
         $session = new FacebookSession($_SESSION['fb_token']);
         echo "here";
