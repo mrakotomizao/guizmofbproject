@@ -38,7 +38,7 @@
     <header><p>TEST FBPROJECT</p></header>
     <div>
         <?php
-            $helper = new FacebookRedirectLoginHelper('http://localhost/');
+            $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
             $loginUrl = $helper->getLoginUrl();
         ?>
             <a href='<?php echo $loginUrl?>'>se connecter</a>
