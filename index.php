@@ -65,6 +65,29 @@
             echo "can't login";
         }
     }
+    if ( isset( $session ) ) {
+
+        // save the session
+        $_SESSION['fb_token'] = $session->getToken();
+        // create a session using saved token or the new one we generated at login
+        $session = new FacebookSession( $session->getToken() );
+
+        // graph api request for user data
+        $request = new FacebookRequest( $session, 'GET', '/me' );
+        $response = $request->execute();
+        // get response
+        $graphObject = $response->getGraphObject()->asArray();
+
+        // print profile data
+        echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
+
+        // print logout url using session and redirect_uri (logout.php page should destroy the session)
+        echo '<a href="' . $helper->getLogoutUrl( $session, 'http://yourwebsite.com/app/logout.php' ) . '">Logout</a>';
+
+    } else {
+        // show login url
+        echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_birthday' ) ) . '">Login</a>';
+    }
 
     ?>
     </div>
