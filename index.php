@@ -42,7 +42,7 @@
     <div>
     <?php
         $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
-        $loginUrl = $helper->getLoginUrl();
+        $loginUrl = $helper->getLoginUrl(['email','user_birthday']);
 
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
