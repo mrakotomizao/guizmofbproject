@@ -40,31 +40,10 @@
     <header><p>TEST FBPROJECT</p></header>
     <div>
     <?php
-        $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
+        $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com/page2.php');
         $loginUrl = $helper->getLoginUrl();
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
-    <?php
-    var_dump($_SESSION);
-    if(isset($_SESSION) && isset($_SESSION['fb_token'])){
-        $session = new FacebookSession($_SESSION['fb_token']);
-        echo "here";
-    }else{
-        try {
-            $session = $helper->getSessionFromRedirect();
-        } catch(FacebookRequestException $ex) {
-            echo "facebook error : ".$ex->getMessage();
-        } catch(\Exception $ex) {
-            echo "validation fail : ".$ex->getMessage();
-        }
-        if ($session) {
-            echo "logged";
-        }else{
-            echo "can't login";
-        }
-    }
-
-    ?>
     </div>
     <div
         class="fb-like"
