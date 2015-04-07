@@ -10,8 +10,6 @@
 
     use Facebook\FacebookSession;
     use Facebook\FacebookRedirectLoginHelper;
-    session_start();
-
     FacebookSession::setDefaultApplication(APPID,APPSECRET);
 ?>
 <!doctype html>
@@ -43,6 +41,7 @@
     <?php
         $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
         $loginUrl = $helper->getLoginUrl();
+        session_start();
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
