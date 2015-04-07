@@ -37,7 +37,6 @@
     </head>
     <body>
     <header><p>TEST FBPROJECT</p></header>
-    <div class="fb-comments" data-href="http://developers.facebook.com/docs/plugins/comments/" data-numposts="5" data-colorscheme="light"></div>
     <div>
         <?php
             $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
