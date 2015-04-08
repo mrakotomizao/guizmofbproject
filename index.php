@@ -12,7 +12,7 @@
     use Facebook\FacebookRedirectLoginHelper;
     use Facebook\FacebookRequestException;
     session_start();
-    FacebookSession::setDefaultApplication(APPID,APPSECRET);
+    FacebookSession::setDefaultApplication(1631679237055563,"0b4c58002161d29e819d3f22cba58c82");
 ?>
 <!doctype html>
 <html lang="fr">
