@@ -6,15 +6,13 @@
     require "vendor/autoload.php";
 
     const APPID =   "1631679237055563";
-    const APPSECRET = "81ec70f0f0c5c3671b1cb22acc15c091";
+    const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
 
     use Facebook\FacebookSession;
-    use Facebook\FacebookRequest;
-    use Facebook\GraphUser;
-    use Facebook\FacebookRequestException;
     use Facebook\FacebookRedirectLoginHelper;
-
-
+    use Facebook\FacebookRequestException;
+    session_start();
+    FacebookSession::setDefaultApplication(APPID,APPSECRET);
 ?>
 <!doctype html>
 <html lang="fr">
@@ -43,15 +41,13 @@
     <header><p>TEST FBPROJECT</p></header>
     <div>
     <?php
-        session_start();
-        FacebookSession::setDefaultApplication(APPID,APPSECRET);
         $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
         $loginUrl = $helper->getLoginUrl(['email','user_birthday']);
 
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
-    var_dump( $helper->getSessionFromRedirect());
+    var_dump($_SESSION);
     if(isset($_SESSION) && isset($_SESSION['fb_token'])){
         $session = new FacebookSession($_SESSION['fb_token']);
         echo "here";
@@ -69,32 +65,8 @@
             echo "can't login";
         }
     }
-    if ( isset( $session ) ) {
-
-        // save the session
-        $_SESSION['fb_token'] = $session->getToken();
-        // create a session using saved token or the new one we generated at login
-        $session = new FacebookSession( $session->getToken() );
-
-        // graph api request for user data
-        $request = new FacebookRequest( $session, 'GET', '/me' );
-        $response = $request->execute();
-        // get response
-        $graphObject = $response->getGraphObject()->asArray();
-
-        // print profile data
-        echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
-
-        // print logout url using session and redirect_uri (logout.php page should destroy the session)
-        echo '<a href="' . $helper->getLogoutUrl( $session, 'logout.php' ) . '">Logout</a>';
-
-    } else {
-        // show login url
-        echo '<a href="' . $helper->getLoginUrl( array( 'email', 'user_birthday' ) ) . '">Login</a>';
-    }
 
     ?>
-        <p><a href='logout.php'>Log Out</a></p>
     </div>
     <div
         class="fb-like"
