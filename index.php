@@ -6,7 +6,7 @@
     require "vendor/autoload.php";
 
     const APPID =   "1631679237055563";
-    const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
+    const APPSECRET = "81ec70f0f0c5c3671b1cb22acc15c091";
 
     use Facebook\FacebookSession;
     use Facebook\FacebookRequest;
