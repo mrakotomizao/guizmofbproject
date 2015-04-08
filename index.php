@@ -13,6 +13,26 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequestException;
 session_start();
 FacebookSession::setDefaultApplication(APPID,APPSECRET);
+$helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
+var_dump($helper);
+$loginUrl = $helper->getLoginUrl();
+if(isset($_SESSION) && isset($_SESSION['fb_token'])){
+    $session = new FacebookSession($_SESSION['fb_token']);
+}else{
+    try {
+        $session = $helper->getSessionFromRedirect();
+    } catch(FacebookRequestException $ex) {
+        echo "facebook error : ".$ex->getMessage();
+    } catch(\Exception $ex) {
+        echo "validation fail : ".$ex->getMessage();
+    }
+    if ($session) {
+        echo "logged";
+    }else{
+        echo "can't login";
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="fr">
@@ -40,36 +60,7 @@ FacebookSession::setDefaultApplication(APPID,APPSECRET);
 <body>
 <header><p>TEST FBPROJECT</p></header>
 <div>
-    <?php
-    $helper = new FacebookRedirectLoginHelper('http://localhost/index.php');
-    $loginUrl = $helper->getLoginUrl();
-
-    ?>
     <a href='<?php echo $loginUrl?>'>se connecter</a>
-    <?php
-    var_dump($_SESSION);
-    if(isset($_SESSION) && isset($_SESSION['fb_token'])){
-        $session = new FacebookSession($_SESSION['fb_token']);
-        echo "here";
-    }else{
-        try {
-
-            $session = $helper->getSessionFromRedirect();
-            $token = $session->getAccessToken();
-            var_dump($token);
-        } catch(FacebookRequestException $ex) {
-            echo "facebook error : ".$ex->getMessage();
-        } catch(\Exception $ex) {
-            echo "validation fail : ".$ex->getMessage();
-        }
-        if ($session) {
-            echo "logged";
-        }else{
-            echo "can't login";
-        }
-    }
-
-    ?>
 </div>
 <div
     class="fb-like"
