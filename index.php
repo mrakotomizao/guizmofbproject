@@ -12,7 +12,7 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequestException;
 session_start();
 FacebookSession::setDefaultApplication(APPID,APPSECRET);
-$urlRedirected = 'https://guizmofbproject.herokuapp.com/page2.php';
+$urlRedirected = 'https://guizmofbproject.herokuapp.com/';
 $helper = new FacebookRedirectLoginHelper($urlRedirected);
 $loginUrl = $helper->getLoginUrl();
 ?>
