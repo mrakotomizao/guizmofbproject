@@ -14,7 +14,7 @@
     use Facebook\FacebookRequestException;
     use Facebook\FacebookRedirectLoginHelper;
 
-    FacebookSession::setDefaultApplication(APPID,APPSECRET);
+
 ?>
 <!doctype html>
 <html lang="fr">
@@ -43,9 +43,11 @@
     <header><p>TEST FBPROJECT</p></header>
     <div>
     <?php
+        session_start();
+        FacebookSession::setDefaultApplication(APPID,APPSECRET);
         $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
         $loginUrl = $helper->getLoginUrl(['email','user_birthday']);
-        session_start();
+
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
