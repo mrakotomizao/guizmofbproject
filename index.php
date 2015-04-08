@@ -2,15 +2,39 @@
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 
-    require "facebook-php-sdk-v4-4.0-dev/autoload.php";
-    require "vendor/autoload.php";
+    require_once( 'Facebook/FacebookHttpable.php' );
+    require_once( 'Facebook/FacebookCurl.php' );
+    require_once( 'Facebook/FacebookCurlHttpClient.php' );
+    require_once( 'Facebook/FacebookSession.php' );
+    require_once( 'Facebook/FacebookRedirectLoginHelper.php' );
+    require_once( 'Facebook/FacebookRequest.php' );
+    require_once( 'Facebook/FacebookResponse.php' );
+    require_once( 'Facebook/FacebookSDKException.php' );
+    require_once( 'Facebook/FacebookRequestException.php' );
+    require_once( 'Facebook/FacebookOtherException.php' );
+    require_once( 'Facebook/FacebookAuthorizationException.php' );
+    require_once( 'Facebook/GraphObject.php' );
+    require_once( 'Facebook/GraphSessionInfo.php' );
+    // added in v4.0.5
+    use Facebook\FacebookHttpable;
+    use Facebook\FacebookCurl;
+    use Facebook\FacebookCurlHttpClient;
+
+    // added in v4.0.0
+    use Facebook\FacebookSession;
+    use Facebook\FacebookRedirectLoginHelper;
+    use Facebook\FacebookRequest;
+    use Facebook\FacebookResponse;
+    use Facebook\FacebookSDKException;
+    use Facebook\FacebookRequestException;
+    use Facebook\FacebookOtherException;
+    use Facebook\FacebookAuthorizationException;
+    use Facebook\GraphObject;
+    use Facebook\GraphSessionInfo;
 
     const APPID =   "1631679237055563";
     const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
-
-    use Facebook\FacebookSession;
-    use Facebook\FacebookRedirectLoginHelper;
-    use Facebook\FacebookRequestException;
+    session_start();
 
     FacebookSession::setDefaultApplication(APPID,APPSECRET);
 ?>
@@ -43,7 +67,7 @@
     <?php
         $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
         $loginUrl = $helper->getLoginUrl(['email','user_birthday']);
-        session_start();
+
     ?>
         <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
