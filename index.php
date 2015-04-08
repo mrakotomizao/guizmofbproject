@@ -13,8 +13,9 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequestException;
 session_start();
 FacebookSession::setDefaultApplication(APPID,APPSECRET);
-$helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
-var_dump($helper);
+$urlRedirected = 'https://guizmofbproject.herokuapp.com';
+$helper = new FacebookRedirectLoginHelper($urlRedirected);
+var_dump($_SESSION);
 $loginUrl = $helper->getLoginUrl();
 if(isset($_SESSION) && isset($_SESSION['fb_token'])){
     $session = new FacebookSession($_SESSION['fb_token']);
