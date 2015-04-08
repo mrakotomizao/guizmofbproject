@@ -15,12 +15,13 @@
 
 
 
-    const APPID = "1374336012897003";
-    const APPSECRET = "4f30d40e554776ebc1aa328683d9178e";
+    const APPID = "1631679237055563";
+    const APPSECRET = "81ec70f0f0c5c3671b1cb22acc15c091";
 
     FacebookSession::setDefaultApplication(APPID, APPSECRET);
 
     $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com/');
+    var_dump($helper);
 
     if( isset($_SESSION) &&  isset($_SESSION['fb_token']))
     {
