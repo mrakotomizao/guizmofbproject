@@ -79,7 +79,9 @@
 
             $token = (string) $session->getAccessToken();
             $_SESSION['fb_token'] = $token;
-
+            echo "<pre>";
+            print_r($token);
+            echo "</pre>";
             //Prepare
             $request = new FacebookRequest($session, 'GET', '/me');
             //execute
