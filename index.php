@@ -1,51 +1,51 @@
 <?php
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
-    require "facebook-php-sdk-v4-4.0-dev/autoload.php";
-    require "vendor/autoload.php";
+require "facebook-php-sdk-v4-4.0-dev/autoload.php";
+require "vendor/autoload.php";
 
-    const APPID =   "1631679237055563";
-    const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
+const APPID =   "1631679237055563";
+const APPSECRET = "0b4c58002161d29e819d3f22cba58c82";
 
-    use Facebook\FacebookSession;
-    use Facebook\FacebookRedirectLoginHelper;
-    use Facebook\FacebookRequestException;
-    session_start();
-    FacebookSession::setDefaultApplication(1631679237055563,"0b4c58002161d29e819d3f22cba58c82");
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequestException;
+session_start();
+FacebookSession::setDefaultApplication(APPID,APPSECRET);
 ?>
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-        <script>
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId      : '1631679237055563',
-                    xfbml      : true,
-                    version    : 'v2.3'
-                });
-            };
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId      : '1631679237055563',
+                xfbml      : true,
+                version    : 'v2.3'
+            });
+        };
 
-            (function(d, s, id){
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {return;}
-                js = d.createElement(s); js.id = id;
-                js.src = "//connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-    </head>
-    <body>
-    <header><p>TEST FBPROJECT</p></header>
-    <div>
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</head>
+<body>
+<header><p>TEST FBPROJECT</p></header>
+<div>
     <?php
-        $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com');
-        $loginUrl = $helper->getLoginUrl(['email','user_birthday']);
+    $helper = new FacebookRedirectLoginHelper('http://localhost/index.php');
+    $loginUrl = $helper->getLoginUrl();
 
     ?>
-        <a href='<?php echo $loginUrl?>'>se connecter</a>
+    <a href='<?php echo $loginUrl?>'>se connecter</a>
     <?php
     var_dump($_SESSION);
     if(isset($_SESSION) && isset($_SESSION['fb_token'])){
@@ -53,7 +53,10 @@
         echo "here";
     }else{
         try {
+
             $session = $helper->getSessionFromRedirect();
+            $token = $session->getAccessToken();
+            var_dump($token);
         } catch(FacebookRequestException $ex) {
             echo "facebook error : ".$ex->getMessage();
         } catch(\Exception $ex) {
@@ -67,13 +70,13 @@
     }
 
     ?>
-    </div>
-    <div
-        class="fb-like"
-        data-share="true"
-        data-width="450"
-        data-show-faces="true">
-    </div>
+</div>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
 
-    </body>
+</body>
 </html>
