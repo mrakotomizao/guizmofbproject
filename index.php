@@ -20,7 +20,7 @@
 
     FacebookSession::setDefaultApplication(APPID, APPSECRET);
 
-    $helper = new FacebookRedirectLoginHelper('https://projetesgi1.herokuapp.com/');
+    $helper = new FacebookRedirectLoginHelper('https://guizmofbproject.herokuapp.com/');
 
     if( isset($_SESSION) &&  isset($_SESSION['fb_token']))
     {
@@ -68,7 +68,7 @@
           data-show-faces="true">
         </div>
         <br>
-        <div class="fb-comments" data-href="http://skrzypczyk.fr" data-numposts="5" data-colorscheme="light"></div>
+        <div class="fb-comments" data-href="https://guizmofbproject.herokuapp.com/" data-numposts="5" data-colorscheme="light"></div>
         <br>
 
         <?php
