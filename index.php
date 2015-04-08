@@ -2,7 +2,6 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-require "facebook-php-sdk-v4-4.0-dev/autoload.php";
 require "vendor/autoload.php";
 
 const APPID =   "1631679237055563";
